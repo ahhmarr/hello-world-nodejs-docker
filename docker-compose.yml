@@ -11,19 +11,6 @@ services:
       - PORT=8000
     networks:
       - dokploy-network
-    labels:
-      - "traefik.enable=true"
-      # HTTP Router
-      - "traefik.http.routers.hello-world.rule=HostRegexp(`^.+/.kotpos/.com$`)"
-      - "traefik.http.routers.hello-world.entrypoints=web"
-      - "traefik.http.services.hello-world.loadbalancer.server.port=8000"
-      - "traefik.http.routers.hello-world.service=hello-world"
-      - "traefik.http.routers.hello-world.middlewares=redirect-to-https@file"
-      # HTTPS Router
-      - "traefik.http.routers.hello-world-websecure.rule=HostRegexp(`^.+/.kotpos/.com$`)"
-      - "traefik.http.routers.hello-world-websecure.entrypoints=websecure"
-      - "traefik.http.routers.hello-world-websecure.service=hello-world-websecure"
-      - "traefik.http.routers.hello-world-websecure.tls.certresolver=letsencrypt"
 networks:
   dokploy-network:
     external: true
