@@ -7,5 +7,26 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=8000
-    ports:
-      - "8000:8000"
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      # HTTP Router
+      - "traefik.http.routers.hello-world.rule=HostRegexp(`^.+\\.kotpos\\.com$`)"
+      - "traefik.http.routers.hello-world.entrypoints=web"
+      # HTTPS Router
+      - "traefik.http.routers.hello-world-secure.rule=HostRegexp(`^.+\\.kotpos\\.com$`)"
+      - "traefik.http.routers.hello-world-secure.entrypoints=websecure"
+      - "traefik.http.routers.hello-world-secure.tls=true"
+      # Service
+      - "traefik.http.services.hello-world.loadbalancer.server.port=8000"
+      # HTTP to HTTPS redirect
+      - "traefik.http.routers.hello-world.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+    volumes:
+      - /etc/dokploy/traefik/dynamic/certificates/certificate-back-up-neural-program-58woad:/certs:ro
+
+networks:
+  dokploy-network:
+    external: true

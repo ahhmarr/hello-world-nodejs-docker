@@ -1,0 +1,5 @@
+tls:
+  certificates:
+    - certFile: /etc/dokploy/traefik/dynamic/certificates/certificate-back-up-neural-program-58woad/chain.crt
+      keyFile: /etc/dokploy/traefik/dynamic/certificates/certificate-back-up-neural-program-58woad/privkey.key
+
